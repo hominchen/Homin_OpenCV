@@ -1,0 +1,28 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Flask & Tensorflow</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-gH2yIJqKdNHPEq0n4Mqa/HGKIhSkIHeL5AyhkYV8i59U5AR6csBvApHHNl/vI1Bx" crossorigin="anonymous">
+  </head>
+ 
+  <body>
+    <h1 class="text-center">第一支在Web上的OpenCV程式</h1>
+    <!-- 如果有上傳圖片就開啟 -->
+    {% if image_path %}
+        <img src="{{ image_path }}" class="img-thumbnail" height="200">
+    {% endif %}
+    <!-- 選擇圖片上傳 -->
+    <form class="p-3" action="/", method="POST" enctype="multipart/form-data">
+        <label class="form-label">上傳圖片：</label>
+        <input type="file" class="form-control" name="imagefile">
+        <br/>
+        <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
+    <br/>
+ 
+       
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-A3rJD856KowSb7dwlZdYEkO39Gagi7vIsF0jrRAoQmDKKtQBHUuLZ9AsSv4jD4Xa" crossorigin="anonymous"></script>
+  </body>
+</html>
