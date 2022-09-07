@@ -20,7 +20,7 @@ app.config['SECRET_KEY'] = "secret key 123456987"
 
 # 因為首頁有使用form上傳，所以要另外加一個route
 @app.route("/")
-def hello():
+def index():
     return render_template('index.html')
 
 # 另外開一個視窗顯示圖片 show_img_OpenCV
@@ -34,7 +34,8 @@ def show_img_OpenCV():
     # img path
     image_path = "static/images/" + image_name
     return render_template('index.html', 
-        image_path=image_path)
+        image_path=image_path,
+        image_name=image_name)
 
 # 在Flask應用程式中顯示多個影象
 @app.route('/pics_show', methods=['GET', 'POST'])
@@ -44,6 +45,15 @@ def pics_show():
     IMG_LIST = ['images/' + i for i in IMG_LIST]
     print(IMG_LIST)
     return render_template("pics_show.html", imagelist=IMG_LIST)
+
+# === errorhandler ===
+@app.errorhandler(404)
+def page_not_found(e):
+    return render_template("404.html"), 404
+
+@app.errorhandler(500)
+def page_not_found(e):
+    return render_template("500.html"), 500
 
 
 if __name__ == "__main__":

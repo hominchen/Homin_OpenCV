@@ -1,14 +1,17 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Hello Worl!</title>
-</head>
+{% extends 'base.html' %}
+ 
+{% block content %}
 
-<body>
-<h1>The Multiple Images</h1>
+    <h1>The Multiple Images</h1>
+
     {% for image in imagelist %}
-        <img src = "{{ url_for('static', filename=image) }}">
+        <div class="card" style="width: 18rem;">
+            <img src="{{ url_for('static', filename=image) }}" class="card-img-top" alt="">
+            <div class="card-body">
+                <p class="card-text">{{ image_name }}</p>
+            </div>
+        </div>
     {% endfor %}
-</body>
-</html>
+
+
+{% endblock %}
