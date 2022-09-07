@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Hello Worl!</title>
+</head>
+
+<body>
+<h1>The Multiple Images</h1>
+    {% for image in imagelist %}
+        <img src = "{{ url_for('static', filename=image) }}">
+    {% endfor %}
+</body>
+</html>
