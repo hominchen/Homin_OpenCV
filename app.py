@@ -1,8 +1,8 @@
-from flask import Flask, render_template, request, session
+from flask import Flask, render_template, request, Response
 import cv2
 import numpy as np
 import matplotlib.pyplot as plt
-import glob
+from camera import Video
 
 from werkzeug.utils import secure_filename
 import os
@@ -18,12 +18,22 @@ app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
 app.config['SECRET_KEY'] = "secret key 123456987"
 
+# === def ===
+#02-1 開啟攝影機
+def gen(camera):
+    while True:
+        frame=camera.get_frame()
+        yield(b'--frame\r\n'
+            b'Content-Type:  image/jpeg\r\n\r\n' + frame +
+            b'\r\n\r\n')
+
+
 # 因為首頁有使用form上傳，所以要另外加一個route
 @app.route("/")
 def index():
     return render_template('index.html')
 
-# 另外開一個視窗顯示圖片 show_img_OpenCV
+#01-1  另外開一個視窗顯示圖片 show_img_OpenCV
 @app.route('/', methods=['GET', 'POST'])
 def show_img_OpenCV():
     image_file = request.files['imagefile']
@@ -37,7 +47,7 @@ def show_img_OpenCV():
         image_path=image_path,
         image_name=image_name)
 
-# 在Flask應用程式中顯示多個影象
+#01-2  在Flask應用程式中顯示多個影象
 @app.route('/pics_show', methods=['GET', 'POST'])
 def pics_show():
     IMG_LIST = os.listdir('static/images')
@@ -45,6 +55,13 @@ def pics_show():
     IMG_LIST = ['images/' + i for i in IMG_LIST]
     print(IMG_LIST)
     return render_template("pics_show.html", imagelist=IMG_LIST)
+
+#02-1 Open Camera
+@app.route('/video99999', methods=['GET', 'POST'])
+def video():
+    return Response(gen(Video()),
+        mimetype='multipart/x-mixed-replace; boundary=frame')
+
 
 # === errorhandler ===
 @app.errorhandler(404)
