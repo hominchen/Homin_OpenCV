@@ -1,9 +1,7 @@
 from flask import Flask, render_template, request, Response
-import cv2
-import numpy as np
-import matplotlib.pyplot as plt
 from camera import Video
-
+import numpy as np
+import cv2
 from werkzeug.utils import secure_filename
 import os
 import uuid as uuid
@@ -39,22 +37,19 @@ def show_img_OpenCV():
     image_file = request.files['imagefile']
     image_name = secure_filename(image_file.filename)
     image_name = str(uuid.uuid1()) + "_" + image_name
-    # save img
-    image_file.save(os.path.join(app.config['UPLOAD_FOLDER'], image_name))
     # img path
-    image_path = "static/images/" + image_name
+    image_path = os.path.join(app.config['UPLOAD_FOLDER'], image_name)
+    # save img
+    image_file.save(image_path)   
     return render_template('index.html', 
-        image_path=image_path,
-        image_name=image_name)
-
+        image_path=image_path)
 #01-2  在Flask應用程式中顯示多個影象
 @app.route('/pics_show', methods=['GET', 'POST'])
 def pics_show():
     IMG_LIST = os.listdir('static/images')
-    print(IMG_LIST)
     IMG_LIST = ['images/' + i for i in IMG_LIST]
-    print(IMG_LIST)
-    return render_template("pics_show.html", imagelist=IMG_LIST)
+    return render_template("pics_show.html", 
+        imagelist=IMG_LIST)
 
 #02-1 Open Camera
 @app.route('/video99999', methods=['GET', 'POST'])

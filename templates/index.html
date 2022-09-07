@@ -1,13 +1,19 @@
 {% extends 'base.html' %}
  
 {% block content %}
+    <!-- flash -->
+    {% for message in get_flashed_messages() %}
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+        {{ message }}
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+    {% endfor %}
 
     <h1 class="text-center">在Web上的OpenCV程式</h1>
     <!-- 如果有上傳圖片就開啟 -->
     {% if image_path %}
         <img src="{{ image_path }}" class="img-thumbnail" height="200">
     {% endif %}
-
 
     <!-- 選擇圖片上傳 -->
     <form class="p-3" action="/", method="POST" enctype="multipart/form-data">
